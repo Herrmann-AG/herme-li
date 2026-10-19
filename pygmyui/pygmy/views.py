@@ -172,7 +172,10 @@ def dashboard(request):
         return render(request, '400.html', context=INVALID_TOKEN, status=400)
     pygmy_client = pygmy_client_object(settings, request)
     try:
-        links = pygmy_client.list_links(access_token=access_token)
+        # Get pagination parameters from query string
+        skip = int(request.GET.get('skip', 0))
+        links = pygmy_client.list_links(
+            access_token=access_token, skip=skip)
     except UnAuthorized as e:
         return render(request,
                       'unauthorized.html',

@@ -153,12 +153,13 @@ class PygmyApiClient(Client):
         return resp
 
     @catch_connection_error
-    def list_links(self, access_token):
+    def list_links(self, access_token, skip=0):
         """List of all user links.
         :param access_token:
+        :param skip: Number of records to skip
         :return: dict
         """
-        user_path = '/api/user/links'
+        user_path = '/api/user/links?skip={}'.format(skip)
         headers = self.header
         headers.update(
             dict(JWT_Authorization='Bearer {}'.format(access_token)))

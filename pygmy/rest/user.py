@@ -83,7 +83,9 @@ def get_links(user_id=None):
         user = UserManager().get_by_email(email=user_email)
         if not user:
             return jsonify(dict(error='Ungültiges/Abgelaufenes token')), 400
-        links = manager.get_by_owner(owner_id=user.id)
+        # Get pagination parameters from query string
+        skip = int(request.args.get('skip', 0))
+        links = manager.get_by_owner(owner_id=user.id, skip=skip)
         if not links:
             return jsonify([]), 200
         result = schema.dump(links, many=True)

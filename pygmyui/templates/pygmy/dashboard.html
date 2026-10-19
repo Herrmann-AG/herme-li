@@ -11,6 +11,30 @@
     overflow: hidden;
     word-wrap: break-word
   }
+  
+  .pagination-container {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .pagination-btn {
+    margin: 0 5px;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .pagination-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  .pagination-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
 </style>
 <table class="table table-bordered">
   <thead>
@@ -38,6 +62,33 @@
     {% endfor %}
   </tbody>
 </table>
+
+<!-- Pagination Navigation -->
+<div class="pagination-container">
+  <ul class="pagination">
+    {% with current_skip=request.GET.skip|default:'0'|add:'0' %}
+      {% if current_skip > 0 %}
+        <li>
+          <a href="?{% for key, value in request.GET.items %}{% if key != 'skip' and key != 'limit' %}{{ key }}={{ value }}&{% endif %}{% endfor %}skip={{ current_skip|add:-100 }}">Previous</a>
+        </li>
+      {% else %}
+        <li class="disabled">
+          <span>Previous</span>
+        </li>
+      {% endif %}
+
+      {% if links|length >= 100 %}
+        <li>
+          <a href="?{% for key, value in request.GET.items %}{% if key != 'skip' and key != 'limit' %}{{ key }}={{ value }}&{% endif %}{% endfor %}skip={{ current_skip|add:100 }}">Next</a>
+        </li>
+      {% else %}
+        <li class="disabled">
+          <span>Next</span>
+        </li>
+      {% endif %}
+    {% endwith %}
+  </ul>
+</div>
 
 <a href="/" class="vcenter">Zurück</a>
 {% endblock content %}

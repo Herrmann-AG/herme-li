@@ -256,9 +256,9 @@ class LinkManager:
         return db.query(Link).filter_by(id=link_id).first()
 
     @dbconnection
-    def get_by_owner(self, db, owner_id):
-        yield from db.query(Link).filter(
-            Link.owner == owner_id).order_by(Link.id).all()
+    def get_by_owner(self, db, owner_id, skip=0):
+        return db.query(Link).filter(
+            Link.owner == owner_id).order_by(Link.id).offset(skip).limit(100).all()
 
     @dbconnection
     def link_clickmeta(self, db):
