@@ -54,7 +54,7 @@
       <td>{{ link.created_at }}</td>
       <td>{{ link.hits_counter }}</td>
       <td>
-        <a download="qr-code-{{ link.short_code }}" href="data:image/svg+xml;base64,{{ link.qr_code }}" class="stat-button">QR-Code</a>
+        <a download="qr-code-{{ link.short_code }}" href="data:application/pdf;base64,{{ link.qr_code }}" class="stat-button">QR-Code</a>
         <button onclick="location.href='/{{ link.short_code }}+'" class="stat-button">Stats</button>
         <button onclick="DeleteLink(this)" data-id="{{ link.id }}" class="stat-button">Löschen</button>
       </td>
