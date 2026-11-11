@@ -19,6 +19,7 @@ from pygmy.database.base import Model
 from pygmy.database.dbutil import dbconnection, utcnow
 from pygmy.exception.error import ShortURLUnavailable, QrCodeGenerationFailed
 from pygmy.model.clickmeta import ClickMeta
+from pygmy.core.logger import log
 
 
 class Link(Model):
@@ -111,7 +112,7 @@ class Link(Model):
 
             # Convert bytes to base64 string
             pdf_buffer.seek(0)
-            qr_string = b64encode(pdf_buffer.read()).decode("utf-8")
+            qr_string = str(b64encode(pdf_buffer.read()).decode("utf-8"))
 
             # Save b64 string to db
             try:
